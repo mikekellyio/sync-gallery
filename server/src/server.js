@@ -43,6 +43,7 @@ app.get("/api", function(req, res, next) {
 });
 
 app.get("/api/images", async (req, res) => {
+  console.log("/api/images", req.body);
   let files = await fileList(folder);
 
   res.type("json");
@@ -50,6 +51,7 @@ app.get("/api/images", async (req, res) => {
 });
 
 app.ws("/api/ws", function(ws, req) {
+  console.log("init ws");
   ws.on("message", message => {
     //log the received message and send it back to the client
     console.log("received: %s", message);

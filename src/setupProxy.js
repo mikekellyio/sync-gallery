@@ -4,6 +4,14 @@ module.exports = function(app) {
     "/api",
     proxy({
       target: "http://localhost:8999",
+      changeOrigin: true
+      //ws: true
+    })
+  );
+  app.use(
+    "/api/ws",
+    proxy({
+      target: "http://localhost:8999",
       changeOrigin: true,
       ws: true
     })
