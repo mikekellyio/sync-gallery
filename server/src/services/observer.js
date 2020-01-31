@@ -24,7 +24,7 @@ class Observer extends EventEmitter {
           // emit an event when new file has been added
           this.emit("file-added", {
             type: "file-added",
-            path: `images/${filePath.split("/").pop()}`
+            path: `api/images/${filePath.split("/").pop()}`
           });
         }
       });

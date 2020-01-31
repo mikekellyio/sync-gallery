@@ -21,7 +21,7 @@ async function fileList(directoryPath) {
   } catch (err) {
     console.log(err);
   }
-  return files.map(file => `images/${file}`);
+  return files.map(file => `api/images/${file}`);
 }
 
 observer.on("file-added", msg => {
@@ -37,19 +37,19 @@ observer.on("file-added", msg => {
 
 observer.watchFolder(folder);
 
-app.get("/", function(req, res, next) {
+app.get("/api", function(req, res, next) {
   console.log("get route", req.testing);
   res.end();
 });
 
-app.get("/images", async (req, res) => {
+app.get("/api/images", async (req, res) => {
   let files = await fileList(folder);
 
   res.type("json");
-  res.send(JSON.stringify(files));
+  res.send(JSON.stringify(files.sort()));
 });
 
-app.ws("/", function(ws, req) {
+app.ws("/api/ws", function(ws, req) {
   ws.on("message", message => {
     //log the received message and send it back to the client
     console.log("received: %s", message);
@@ -60,7 +60,7 @@ app.ws("/", function(ws, req) {
   ws.send(JSON.stringify({ type: "echo" }));
 });
 
-app.use("/images", express.static(folder));
+app.use("/api/images", express.static(folder));
 
 app.listen(process.env.PORT || 8999, () => {
   console.log(`Server started on port ${process.env.PORT || 8999} :)`);

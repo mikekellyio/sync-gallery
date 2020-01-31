@@ -1,24 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+
+import React, { useEffect, useState } from "react";
+
+import Slideshow from "./Slideshow";
 
 function App() {
+  let [images, setImages] = useState([]);
+
+  useEffect(() => {
+    async function fetchImages() {
+      let response = await fetch("/api/images");
+      let images = await response.json();
+      setImages(images);
+    }
+    fetchImages();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <header className="App-header"></header>
+      <Slideshow images={[]} />
     </div>
   );
 }
